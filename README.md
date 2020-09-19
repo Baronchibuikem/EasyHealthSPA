@@ -1,4 +1,4 @@
-# Mambilla Front End
+# EasyHealth Front End
 
 ## Project setup
 This should be run after every ``` git pull```  so that every dependencies installed on the project since the last pull will be installed.
