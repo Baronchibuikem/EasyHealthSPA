@@ -11,7 +11,7 @@
             </md-button>
 
             <!-- if user is successfully authenticated -->
-            <div id="user_menu" class="md-toolbar-section-end" v-if="isAuthenticated">
+            <!-- <div id="user_menu" class="md-toolbar-section-end" v-if="isAuthenticated">
               <md-menu
                 md-direction="bottom-end"
                 md-align-trigger
@@ -19,11 +19,11 @@
                 :md-offset-y="14"
               >
                 <span md-menu-trigger>
-                  <md-avatar class="md-avatar-icon md-primary">
-                    <!-- <img :src="user.avatar" alt="people" /> -->
-                  </md-avatar>
-                  <!-- <span class="ml-2">Dr. {{ user.firstname }} {{ user.lastname }}</span> -->
-                  <md-icon>keyboard_arrow_down</md-icon>
+            <md-avatar class="md-avatar-icon md-primary">-->
+            <!-- <img :src="user.avatar" alt="people" /> -->
+            <!-- </md-avatar> -->
+            <!-- <span class="ml-2">Dr. {{ user.firstname }} {{ user.lastname }}</span> -->
+            <!-- <md-icon>keyboard_arrow_down</md-icon>
                 </span>
 
                 <md-menu-content style="width: 165px;">
@@ -31,10 +31,10 @@
                   <md-menu-item @click="handleLogout">Logout</md-menu-item>
                 </md-menu-content>
               </md-menu>
-            </div>
+            </div>-->
 
             <!-- if the user is not authenticated -->
-            <div id="guest_menu" class="md-toolbar-section-end" v-else>
+            <div id="guest_menu" class="md-toolbar-section-end" v-if="!isAuthenticated">
               <div class="nav-item d-none d-md-inline-block mx-3">
                 <router-link to="/" exact style="color: black">Home</router-link>
               </div>

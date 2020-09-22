@@ -31,19 +31,32 @@ const getters = {
 
 // actions are mostly responsible for performing CRUD operations as allowed on the API endpoints being called
 const actions = {
+
+    // for getting the current token of a logged in user
+    async getToken(){
+         // config is used to set the authorization by getting the token of the the logged in user
+         let config = {
+            headers: {
+                Authorization: `Token ${getters.getToken}`,
+                // "Content-Type": "application/json"
+            },
+        }
+        return config
+    },
+
     // Login action
     async login({ commit, dispatch }, payload) {
         const { email, password } = payload
         try {
             const response = await route.post("login/", { email, password })
-            console.log(response.data, "Response from Login")
+            console.log(response.data, "response from login action")
             if (response) {
                 const token = response.data.token;
-                const user = response.data.user;
+                const id = response.data.user;
                 localStorage.setItem("token", token);
                 axios.defaults.headers.common["Authorization"] = token;
-                commit("auth_success", { token, user });
-                dispatch("getUser", user);
+                // commit("auth_success", { token, user });
+                dispatch("getUser", {id,token });
             }
         } catch (error) {
             console.log(error, "ERROR MESSAGE")
@@ -57,18 +70,12 @@ const actions = {
     },
 
 
-    async getUser({ commit, getters }, id) {
-        // config is used to set the authorization by getting the token of the the logged in user
-        let config = {
-            headers: {
-                Authorization: `Token ${getters.getToken}`,
-                // "Content-Type": "application/json"
-            },
-        };
+    async getUser({ commit, getters }, payload) {
         try {
-            const response = await route.get(`user/${id}/`, { id }, config)
+            const response = await route.get(`user/${payload.id}/`, payload.token)
+            console.log(response.data, "from getuser action")
             if (response) {
-                commit("UPDATEUSER", response.data)
+                commit("update_user", response.data)
             }
         } catch (error) {
             console.log(error)
@@ -112,11 +119,10 @@ const mutations = {
         state.token = "";
     },
 
-    UPDATEUSER(state, payload) {
-        const {
-            ...user
-        } = payload;
-        state.user.userObj.user.profile = user;
+    update_user(state, payload) {
+        const { ...user } = payload;
+        state.user = user;
+        state.loggedIn = true
     },
     /* Used to update the states which are perculiar for display data specific to a user or userprofile
     Since the the payload contains a user object, while destructing the payload, we use spread operator
